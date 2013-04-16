@@ -1,7 +1,7 @@
 {
   "name": "jade-frakt",
   "version": "0.0.0",
-  "description": "Precompile jade templates for transport to the client",
+  "description": "express middleware for supplying jade templates to the client",
   "main": "jade-frakt.js",
   "directories": {
     "test": "test"
