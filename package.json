@@ -9,7 +9,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha -R spec --compilers coffee:coffee-script"
   },
-  "repository": "",
+  "repository": "https://github.com/brikteknologier/jade-frakt",
   "author": "Jon Packer",
   "license": "MIT",
   "devDependencies": {
