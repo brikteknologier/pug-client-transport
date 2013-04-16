@@ -25,7 +25,7 @@ module.exports = (directory, opts) ->
 
   opts ?= {}
   opts.compile ?= false
-  opts.cache ?= process.env.NODE_ENV is 'production'
+  opts.cache ?= true
   opts.expose ?= false
 
   readTemplates = (callback) ->
@@ -48,7 +48,7 @@ module.exports = (directory, opts) ->
           continue if not data
           data = data.toString()
           if opts.compile
-            data = jade.compile data, 
+            data = jade.compile data,
               compileDebug: false
               client: true
               filename: path.resolve directory, files[i]
