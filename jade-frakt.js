@@ -74,9 +74,8 @@
             }
             data = data.toString();
             if (opts.compile) {
-              data = jade.compile(data, {
+              data = jade.compileClient(data, {
                 compileDebug: false,
-                compileClient: true,
                 filename: path.resolve(directory, files[i])
               });
             }

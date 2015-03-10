@@ -48,9 +48,8 @@ module.exports = (directory, opts) ->
           continue if not data
           data = data.toString()
           if opts.compile
-            data = jade.compile data,
+            data = jade.compileClient data,
               compileDebug: false
-              compileClient: true
               filename: path.resolve directory, files[i]
           filename = files[i].replace(/\.jade$/i, "")
           templatesData[filename] = data

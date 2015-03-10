@@ -137,7 +137,7 @@ describe 'Templates Middleware', ->
     '''
     response = responseMock (err, vals) ->
       assert.ok not err, err
-      cjadefn = jade.compile jadeStr, compileDebug: false, compileClient: true
+      cjadefn = jade.compileClient jadeStr, compileDebug: false
 
       assert.equal vals['cucumberpickle'].toString(), cjadefn.toString()
 
