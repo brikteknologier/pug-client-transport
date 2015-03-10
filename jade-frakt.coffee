@@ -50,7 +50,7 @@ module.exports = (directory, opts) ->
           if opts.compile
             data = jade.compile data,
               compileDebug: false
-              client: true
+              compileClient: true
               filename: path.resolve directory, files[i]
           filename = files[i].replace(/\.jade$/i, "")
           templatesData[filename] = data
