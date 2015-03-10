@@ -75,5 +75,5 @@ module.exports = (directory, opts) ->
       if opts.expose
         res.expose templates, 'templates'
       else
-        res.local 'templates', templates
+        res.locals.templates = templates
       next()

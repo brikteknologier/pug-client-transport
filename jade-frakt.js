@@ -82,6 +82,7 @@
             filename = files[i].replace(/\.jade$/i, "");
             return templatesData[filename] = data;
           });
+          console.log(templatesData);
           return callback(null, templatesData);
         });
       });
@@ -111,10 +112,11 @@
         if (err) {
           return res.send(err, 500);
         }
+        console.log(templates);
         if (opts.expose) {
           res.expose(templates, 'templates');
         } else {
-          res.local('templates', templates);
+          res.locals.templates = templates;
         }
         return next();
       });
