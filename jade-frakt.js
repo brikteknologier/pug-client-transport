@@ -62,15 +62,15 @@
           return _results;
         })();
         return async.parallel(tasks, function(err, contents) {
-          var data, filename, i, templatesData, _i, _len;
+          var templatesData;
           if (err) {
             return callback(err);
           }
           templatesData = {};
-          for (i = _i = 0, _len = contents.length; _i < _len; i = ++_i) {
-            data = contents[i];
+          contents.forEach(function(data, i) {
+            var filename;
             if (!data) {
-              continue;
+              return;
             }
             data = data.toString();
             if (opts.compile) {
@@ -80,8 +80,8 @@
               });
             }
             filename = files[i].replace(/\.jade$/i, "");
-            templatesData[filename] = data;
-          }
+            return templatesData[filename] = data;
+          });
           return callback(null, templatesData);
         });
       });

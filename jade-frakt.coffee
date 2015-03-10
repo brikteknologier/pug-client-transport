@@ -44,8 +44,8 @@ module.exports = (directory, opts) ->
       async.parallel tasks, (err, contents) ->
         return callback err if err
         templatesData = {}
-        for data, i in contents
-          continue if not data
+        contents.forEach (data, i) ->
+          return if not data
           data = data.toString()
           if opts.compile
             data = jade.compileClient data,
