@@ -1,6 +1,6 @@
 {
   "name": "jade-frakt",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "express middleware for supplying jade templates to the client",
   "main": "jade-frakt.js",
   "directories": {
