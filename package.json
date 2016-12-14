@@ -2,14 +2,14 @@
   "name": "pug-client-transport",
   "version": "1.0.0",
   "description": "express middleware for supplying pug templates to the client",
-  "main": "pug-frakt.js",
+  "main": "pug-client-transport.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha -R spec --compilers coffee:coffee-script/register"
   },
-  "repository": "https://github.com/brikteknologier/pug-frakt",
+  "repository": "https://github.com/brikteknologier/pug-client-transport",
   "author": "Jon Packer",
   "license": "MIT",
   "devDependencies": {
