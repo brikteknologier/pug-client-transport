@@ -127,15 +127,16 @@ describe 'Templates Middleware', ->
     
   it 'should truncate pug file exts', (done) ->
     middleware = tmw dir
-    response = responseMock (err, vals) ->
-      assert.ok not err, err
-      assert.equal vals['f1'], 'data-1'
-      assert.equal vals['f2'], 'data-2'
-      assert.equal vals['cucumberpickle'], 'data-3'
-      done()
+    response = responseMock (err, vals) -> done(e) if e
     fs.writeFileSync "#{dir}/cucumberpickle.pug", "data-3"
     check = ->
       middleware null, response, ->
+        assert.ok response.locals.templates
+        vals = response.locals.templates
+        assert.equal vals['f1'], 'data-1'
+        assert.equal vals['f2'], 'data-2'
+        assert.equal vals['cucumberpickle'], 'data-3'
+        done()
     setTimeout check, graceperiod
 
   it 'should expose pre-cooked JS templates if specified', (done) ->
