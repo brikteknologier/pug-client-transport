@@ -146,16 +146,15 @@ describe 'Templates Middleware', ->
       h1.title #{title} #{t}
       p Just an example
     '''
-    response = responseMock (err, vals) ->
-      assert.ok not err, err
-      cpugfn = pug.compileClient pugStr, compileDebug: false
-
-      assert.equal vals['cucumberpickle'].toString(), cpugfn.toString()
-
-      done()
+    response = responseMock (err, vals) -> done(e) if e
     fs.writeFileSync "#{dir}/cucumberpickle.pug", pugStr
     check = ->
       middleware null, response, ->
+        assert.ok response.locals.templates
+        vals = response.locals.templates
+        cpugfn = pug.compileClient pugStr, compileDebug: false
+        assert.equal vals['cucumberpickle'].toString(), cpugfn.toString()
+        done()
     setTimeout check, graceperiod
 
   it 'should attempt to expose pre-cooked JS tmpls when expose=true', (done) ->
