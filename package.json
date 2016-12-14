@@ -1,6 +1,6 @@
 {
   "name": "pug-client-transport",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "express middleware for supplying pug templates to the client",
   "main": "pug-client-transport.js",
   "directories": {
