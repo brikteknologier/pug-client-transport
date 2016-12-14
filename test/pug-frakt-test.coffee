@@ -98,16 +98,17 @@ describe 'Templates Middleware', ->
 
   it 'should ignore `index.pug`', (done) ->
     middleware = tmw dir
-    response = responseMock (err, vals) ->
-      assert.ok not err, err
-      assert.equal vals['f1'], 'data-1'
-      assert.equal vals['f2'], 'data-2'
-      assert.ok not vals['index.pug']
-      assert.ok not vals['index']
-      done()
+    response = responseMock (err, vals) -> done(e) if e
     fs.writeFileSync "#{dir}/index.pug", "data-3"
     check = ->
       middleware null, response, ->
+        assert.ok response.locals.templates
+        vals = response.locals.templates
+        assert.equal vals['f1'], 'data-1'
+        assert.equal vals['f2'], 'data-2'
+        assert.ok not vals['index.pug']
+        assert.ok not vals['index']
+        done()
     setTimeout check, graceperiod
 
   it 'should ignore directories', (done) ->
