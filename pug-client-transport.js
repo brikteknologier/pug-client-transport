@@ -76,6 +76,7 @@
             if (opts.compile) {
               data = pug.compileClient(data, {
                 compileDebug: false,
+                inlineRuntimeFunctions: false,
                 filename: path.resolve(directory, files[i])
               });
             }

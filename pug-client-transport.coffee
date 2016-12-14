@@ -48,9 +48,11 @@ module.exports = (directory, opts) ->
           return if not data
           data = data.toString()
           if opts.compile
-            data = pug.compileClient data,
-              compileDebug: false
-              filename: path.resolve directory, files[i]
+            data = pug.compileClient(data, {
+              compileDebug: false,
+              inlineRuntimeFunctions: false,
+              filename: path.resolve(directory, files[i])
+            })
           filename = files[i].replace(/\.pug/i, "")
           templatesData[filename] = data
         callback null, templatesData
