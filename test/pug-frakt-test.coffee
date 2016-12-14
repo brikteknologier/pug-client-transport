@@ -25,28 +25,30 @@ describe 'Templates Middleware', ->
     send: (code, err) -> callback err
     local: (name, val) -> callback null, val, 'local'
     expose: (fn, name) -> callback null, fn, 'expose'
+    locals: {}
 
   it 'should read initial templates', (done) ->
     middleware = tmw dir
-    response = responseMock (err, vals) ->
-      assert.ok not err, err
-      assert.equal vals['f1'], 'data-1'
-      assert.equal vals['f2'], 'data-2'
-      done()
+    response = responseMock (e) -> done(e) if e
     middleware null, response, ->
+      assert.ok response.locals.templates
+      assert.equal response.locals.templates['f1'], 'data-1'
+      assert.equal response.locals.templates['f2'], 'data-2'
+      done()
 
   it 'should update values when the files change', (done) ->
     middleware = tmw dir
-    response = responseMock (err, vals) ->
-      assert.ok not err, err
-      assert.equal vals['f1'], 'data-1'
-      assert.equal vals['f2'], 'data-4'
-      assert.equal vals['f3'], 'data-3'
-      done()
+    response = responseMock (err, vals) -> done(e) if e
     fs.writeFileSync "#{dir}/f2", "data-4"
     fs.writeFileSync "#{dir}/f3", "data-3"
     check = ->
       middleware null, response, ->
+        assert.ok response.locals.templates
+        vals = response.locals.templates
+        assert.equal vals['f1'], 'data-1'
+        assert.equal vals['f2'], 'data-4'
+        assert.equal vals['f3'], 'data-3'
+        done()
     setTimeout check, graceperiod
     
   it 'should pick up new files when they appear', (done) ->
