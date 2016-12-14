@@ -2,8 +2,9 @@ fs = require 'fs'
 async = require 'async'
 curry = require('naan').curry
 assert = require 'assert'
-global.jade = require 'jade'
+global.pug = require 'pug'
 tmw = require '../'
+_ = require 'underscore'
 
 describe 'Templates Middleware', ->
   dir = './test/tw_test_area'
@@ -88,16 +89,16 @@ describe 'Templates Middleware', ->
       middleware null, response, ->
     setTimeout check, graceperiod
 
-  it 'should ignore `index.jade`', (done) ->
+  it 'should ignore `index.pug`', (done) ->
     middleware = tmw dir
     response = responseMock (err, vals) ->
       assert.ok not err, err
       assert.equal vals['f1'], 'data-1'
       assert.equal vals['f2'], 'data-2'
-      assert.ok not vals['index.jade']
+      assert.ok not vals['index.pug']
       assert.ok not vals['index']
       done()
-    fs.writeFileSync "#{dir}/index.jade", "data-3"
+    fs.writeFileSync "#{dir}/index.pug", "data-3"
     check = ->
       middleware null, response, ->
     setTimeout check, graceperiod
@@ -115,7 +116,7 @@ describe 'Templates Middleware', ->
       middleware null, response, ->
     setTimeout check, graceperiod
     
-  it 'should truncate jade file exts', (done) ->
+  it 'should truncate pug file exts', (done) ->
     middleware = tmw dir
     response = responseMock (err, vals) ->
       assert.ok not err, err
@@ -123,33 +124,33 @@ describe 'Templates Middleware', ->
       assert.equal vals['f2'], 'data-2'
       assert.equal vals['cucumberpickle'], 'data-3'
       done()
-    fs.writeFileSync "#{dir}/cucumberpickle.jade", "data-3"
+    fs.writeFileSync "#{dir}/cucumberpickle.pug", "data-3"
     check = ->
       middleware null, response, ->
     setTimeout check, graceperiod
 
   it 'should expose pre-cooked JS templates if specified', (done) ->
     middleware = tmw dir, compile: true
-    jadeStr = '''
+    pugStr = '''
       - var title = 'yay'
       h1.title #{title} #{t}
       p Just an example
     '''
     response = responseMock (err, vals) ->
       assert.ok not err, err
-      cjadefn = jade.compileClient jadeStr, compileDebug: false
+      cpugfn = pug.compileClient pugStr, compileDebug: false
 
-      assert.equal vals['cucumberpickle'].toString(), cjadefn.toString()
+      assert.equal vals['cucumberpickle'].toString(), cpugfn.toString()
 
       done()
-    fs.writeFileSync "#{dir}/cucumberpickle.jade", jadeStr
+    fs.writeFileSync "#{dir}/cucumberpickle.pug", pugStr
     check = ->
       middleware null, response, ->
     setTimeout check, graceperiod
 
   it 'should attempt to expose pre-cooked JS tmpls when expose=true', (done) ->
     middleware = tmw dir, compile: true, expose: true
-    jadeStr = '''
+    pugStr = '''
       - var title = 'yay'
       h1.title #{title} #{t}
       p Just an example
@@ -159,7 +160,7 @@ describe 'Templates Middleware', ->
       assert.equal method, 'expose'
 
       done()
-    fs.writeFileSync "#{dir}/cucumberpickle.jade", jadeStr
+    fs.writeFileSync "#{dir}/cucumberpickle.pug", pugStr
     check = ->
       middleware null, response, ->
     setTimeout check, graceperiod

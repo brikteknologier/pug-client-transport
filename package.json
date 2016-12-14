@@ -7,18 +7,19 @@
     "test": "test"
   },
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -R spec --compilers coffee:coffee-script"
+    "test": "./node_modules/mocha/bin/mocha -R spec --compilers coffee:coffee-script/register"
   },
   "repository": "https://github.com/brikteknologier/pug-frakt",
   "author": "Jon Packer",
   "license": "MIT",
   "devDependencies": {
-    "mocha": "~1.9.0"
+    "coffee-script": "^1.12.1",
+    "mocha": "^3.2.0"
   },
   "dependencies": {
-    "async": "~0.2.7",
+    "async": "^2.1.4",
     "naan": "~1.3.10",
     "pug": "^2.0.0-beta6",
-    "underscore": "~1.4.4"
+    "underscore": "^1.8.3"
   }
 }

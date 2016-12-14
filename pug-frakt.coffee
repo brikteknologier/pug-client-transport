@@ -3,7 +3,7 @@ async = require 'async'
 curry = require('naan').curry
 _ = require 'underscore'
 Emitter = require('events').EventEmitter
-jade = require 'jade'
+pug = require 'pug'
 path = require 'path'
 
 # This is a little utility that is intended to supply a set of templates to a
@@ -31,7 +31,7 @@ module.exports = (directory, opts) ->
   readTemplates = (callback) ->
     fs.readdir directory, (err, files) ->
       return callback err if err
-      files = _.reject files, (file) -> file is 'index.jade'
+      files = _.reject files, (file) -> file is 'index.pug'
 
       tolerantReadFile = (filename, callback) ->
         fs.readFile filename, (err, data) ->
@@ -48,10 +48,10 @@ module.exports = (directory, opts) ->
           return if not data
           data = data.toString()
           if opts.compile
-            data = jade.compileClient data,
+            data = pug.compileClient data,
               compileDebug: false
               filename: path.resolve directory, files[i]
-          filename = files[i].replace(/\.jade$/i, "")
+          filename = files[i].replace(/\.pug/i, "")
           templatesData[filename] = data
         callback null, templatesData
 
