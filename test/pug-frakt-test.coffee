@@ -113,15 +113,16 @@ describe 'Templates Middleware', ->
 
   it 'should ignore directories', (done) ->
     middleware = tmw dir
-    response = responseMock (err, vals) ->
-      assert.ok not err, err
-      assert.equal vals['f1'], 'data-1'
-      assert.equal vals['f2'], 'data-2'
-      assert.ok not vals['a_dir']
-      done()
+    response = responseMock (err, vals) -> done(e) if e
     fs.mkdirSync "#{dir}/a_dir"
     check = ->
       middleware null, response, ->
+        assert.ok response.locals.templates
+        vals = response.locals.templates
+        assert.equal vals['f1'], 'data-1'
+        assert.equal vals['f2'], 'data-2'
+        assert.ok not vals['a_dir']
+        done()
     setTimeout check, graceperiod
     
   it 'should truncate pug file exts', (done) ->
