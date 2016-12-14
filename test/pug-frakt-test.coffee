@@ -84,15 +84,16 @@ describe 'Templates Middleware', ->
     
   it 'should pick up new files when they appear (with cache)', (done) ->
     middleware = tmw dir, cache: true
-    response = responseMock (err, vals) ->
-      assert.ok not err, err
-      assert.equal vals['f1'], 'data-1'
-      assert.equal vals['f2'], 'data-2'
-      assert.equal vals['f3'], 'data-3'
-      done()
+    response = responseMock (err, vals) -> done(e) if e
     fs.writeFileSync "#{dir}/f3", "data-3"
     check = ->
       middleware null, response, ->
+        assert.ok response.locals.templates
+        vals = response.locals.templates
+        assert.equal vals['f1'], 'data-1'
+        assert.equal vals['f2'], 'data-2'
+        assert.equal vals['f3'], 'data-3'
+        done()
     setTimeout check, graceperiod
 
   it 'should ignore `index.pug`', (done) ->
