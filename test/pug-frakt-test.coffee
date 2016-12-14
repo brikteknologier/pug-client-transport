@@ -11,7 +11,9 @@ describe 'Templates Middleware', ->
   graceperiod = 0
 
   beforeEach ->
-    fs.mkdirSync dir
+    try
+      fs.mkdirSync dir
+    catch e
     fs.writeFileSync "#{dir}/f1", "data-1"
     fs.writeFileSync "#{dir}/f2", "data-2"
 
@@ -67,16 +69,17 @@ describe 'Templates Middleware', ->
     
   it 'should update values when the files change (with cache)', (done) ->
     middleware = tmw dir, cache: true
-    response = responseMock (err, vals) ->
-      assert.ok not err, err
-      assert.equal vals['f1'], 'data-1'
-      assert.equal vals['f2'], 'data-4'
-      assert.equal vals['f3'], 'data-3'
-      done()
+    response = responseMock (err, vals) -> done(e) if e
     fs.writeFileSync "#{dir}/f2", "data-4"
     fs.writeFileSync "#{dir}/f3", "data-3"
     check = ->
       middleware null, response, ->
+        assert.ok response.locals.templates
+        vals = response.locals.templates
+        assert.equal vals['f1'], 'data-1'
+        assert.equal vals['f2'], 'data-4'
+        assert.equal vals['f3'], 'data-3'
+        done()
     setTimeout check, graceperiod
     
   it 'should pick up new files when they appear (with cache)', (done) ->
