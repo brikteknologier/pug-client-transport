@@ -1,6 +1,6 @@
 {
   "name": "pug-client-transport",
-  "version": "0.2.5",
+  "version": "1.0.0",
   "description": "express middleware for supplying pug templates to the client",
   "main": "pug-frakt.js",
   "directories": {
