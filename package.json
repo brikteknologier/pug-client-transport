@@ -1,15 +1,15 @@
 {
-  "name": "jade-frakt",
+  "name": "pug-frakt",
   "version": "0.2.5",
-  "description": "express middleware for supplying jade templates to the client",
-  "main": "jade-frakt.js",
+  "description": "express middleware for supplying pug templates to the client",
+  "main": "pug-frakt.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha -R spec --compilers coffee:coffee-script"
   },
-  "repository": "https://github.com/brikteknologier/jade-frakt",
+  "repository": "https://github.com/brikteknologier/pug-frakt",
   "author": "Jon Packer",
   "license": "MIT",
   "devDependencies": {
